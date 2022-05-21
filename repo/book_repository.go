@@ -11,6 +11,7 @@ import (
 type IBookRepository interface {
 	GetBooks() []data.Book
 	BorrowOrReturnBook(action, user, book string) (data.Borrow, error)
+	MyBorrowedList(user string) []data.Borrow
 }
 
 type BookRepository struct {
@@ -29,6 +30,13 @@ func (br *BookRepository) GetBooks() []data.Book {
 	db := Instance()
 	db.Where("quantity > ?", 0).Find(&books)
 	return books
+}
+
+func (br *BookRepository) MyBorrowedList(user string) []data.Borrow {
+	var borrows []data.Borrow
+	db := Instance()
+	db.Where("user = ?", user).Find(&borrows)
+	return borrows
 }
 
 func (br *BookRepository) BorrowOrReturnBook(action, user, book string) (data.Borrow, error) {

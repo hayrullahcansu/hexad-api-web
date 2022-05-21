@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var once sync.Once
+var onceMigration, onceSeed sync.Once
 
 func getDbContext() (*gorm.DB, error) {
 	return OpenDb(
@@ -23,6 +23,11 @@ func Instance() *gorm.DB {
 	if err != nil {
 		log.Fatal("cannot initialize db", err)
 	}
+	onceSeed.Do(func() {
+		fmt.Println("database seed first")
+		initData(db)
+		fmt.Println("database seed done")
+	})
 	return db
 }
 
@@ -31,7 +36,7 @@ func OpenDb(connection string) (*gorm.DB, error) {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	once.Do(func() {
+	onceMigration.Do(func() {
 		// Migrate the schema
 		fmt.Println("migration first")
 		db.AutoMigrate(
@@ -39,6 +44,21 @@ func OpenDb(connection string) (*gorm.DB, error) {
 			&data.Borrow{},
 		)
 		fmt.Println("migration done")
+
 	})
 	return db, err
+}
+
+func initData(db *gorm.DB) {
+	for _, v := range getTestBooks() {
+		db.Create(&v)
+	}
+}
+
+func getBooks() []data.Book {
+	books := make([]data.Book, 0)
+	books = append(books, data.Book{Name: "TestBook1", Quantity: 3})
+	books = append(books, data.Book{Name: "TestBook2", Quantity: 5})
+	books = append(books, data.Book{Name: "TestBook3", Quantity: 1})
+	return books
 }

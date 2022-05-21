@@ -40,7 +40,20 @@ func TestGETBooks(t *testing.T) {
 			t.Errorf("want %v, got %v", want, got)
 		}
 	})
-	t.Run("User can borrow a book from the library", func(t *testing.T) {
+	borrowedHandler := BorrowedListHandler{repo}
+
+	t.Run("User can see borrowed list", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/borrowed/test1_username", nil)
+		response := httptest.NewRecorder()
+		borrowedHandler.ServeHTTP(response, request)
+		got := response.Result().StatusCode
+		want := 200
+		if want != got {
+			t.Errorf("want %v, got %v", want, got)
+		}
+	})
+
+	t.Run("User can return a book from the library", func(t *testing.T) {
 		data := url.Values{}
 		data.Set("user", "test1_username")
 		data.Set("book", "TestBook1")

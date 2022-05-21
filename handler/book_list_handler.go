@@ -50,6 +50,7 @@ func (bh *BookListHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				if err != nil {
 					w.WriteHeader(http.StatusNotFound)
 					fmt.Fprint(w, err.Error())
+					return
 				}
 				if data, err := json.Marshal(borrow); err != nil {
 					w.WriteHeader(http.StatusInternalServerError)

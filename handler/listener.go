@@ -23,6 +23,9 @@ func (a *ApiListener) ListenAndServe() {
 	a.mux.HandleFunc("/", TestServer)
 	bookListHandler := NewBookListHandler()
 	a.mux.HandleFunc("/api/v1/books/", bookListHandler.ServeHTTP)
+	borrowedListHandler := NewBorrowedListHandler()
+	a.mux.HandleFunc("/api/v1/borrowed/", borrowedListHandler.ServeHTTP)
+
 	// [START setting_port]
 	port := os.Getenv("PORT")
 	if port == "" {
