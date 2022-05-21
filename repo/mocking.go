@@ -6,12 +6,12 @@ import (
 	"gorm.io/gorm"
 )
 
-func NewTestBookRepository() (IBookRepository, error) {
+func NewTestLibraryRepository() (ILibraryRepository, error) {
 	db, err := mookTestDb()
 	if err != nil {
 		return nil, err
 	}
-	repo := NewBookRepository(db)
+	repo := NewLibraryRepository(db)
 	return repo, nil
 }
 

@@ -8,20 +8,20 @@ import (
 	"regexp"
 )
 
-var pattern = `books\/{0,1}(borrow|return)?`
+var booksPattern = `books\/{0,1}(borrow|return)?`
 
 type BookListHandler struct {
-	repo.IBookRepository
+	repo.ILibraryRepository
 }
 
 func NewBookListHandler() *BookListHandler {
 	db := repo.Instance()
-	repo := repo.NewBookRepository(db)
+	repo := repo.NewLibraryRepository(db)
 	return &BookListHandler{repo}
 }
 
 func (bh *BookListHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	reg := regexp.MustCompile(pattern)
+	reg := regexp.MustCompile(booksPattern)
 	url := r.URL.Path[1:]
 	if regexGroup := reg.FindStringSubmatch(url); regexGroup != nil {
 		action := regexGroup[1]

@@ -57,8 +57,8 @@ func initData(db *gorm.DB) {
 
 func getBooks() []data.Book {
 	books := make([]data.Book, 0)
-	books = append(books, data.Book{Name: "TestBook1", Quantity: 3})
-	books = append(books, data.Book{Name: "TestBook2", Quantity: 5})
-	books = append(books, data.Book{Name: "TestBook3", Quantity: 1})
+	books = append(books, data.Book{Name: "Sapiens: A Brief History of Humankind", Quantity: 5})
+	books = append(books, data.Book{Name: "Outliers: The Story of Success", Quantity: 2})
+	books = append(books, data.Book{Name: "Thinking, Fast and Slow", Quantity: 1})
 	return books
 }

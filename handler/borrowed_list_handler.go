@@ -11,12 +11,12 @@ import (
 var patternBorrowed = `borrowed\/{0,1}(.*)`
 
 type BorrowedListHandler struct {
-	repo.IBookRepository
+	repo.ILibraryRepository
 }
 
 func NewBorrowedListHandler() *BorrowedListHandler {
 	db := repo.Instance()
-	repo := repo.NewBookRepository(db)
+	repo := repo.NewLibraryRepository(db)
 	return &BorrowedListHandler{repo}
 }
 

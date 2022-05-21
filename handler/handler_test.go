@@ -10,7 +10,7 @@ import (
 )
 
 func TestGETBooks(t *testing.T) {
-	repo, err := repo.NewTestBookRepository()
+	repo, err := repo.NewTestLibraryRepository()
 	if err != nil {
 		t.Errorf("cannot initialize test book repository %v", err.Error())
 	}

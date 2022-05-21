@@ -8,38 +8,38 @@ import (
 	"gorm.io/gorm"
 )
 
-type IBookRepository interface {
+type ILibraryRepository interface {
 	GetBooks() []data.Book
 	BorrowOrReturnBook(action, user, book string) (data.Borrow, error)
 	MyBorrowedList(user string) []data.Borrow
 }
 
-type BookRepository struct {
-	IBookRepository
+type LibraryRepository struct {
+	ILibraryRepository
 	db *gorm.DB
 }
 
-func NewBookRepository(db *gorm.DB) IBookRepository {
-	return &BookRepository{
+func NewLibraryRepository(db *gorm.DB) ILibraryRepository {
+	return &LibraryRepository{
 		db: db,
 	}
 }
 
-func (br *BookRepository) GetBooks() []data.Book {
+func (br *LibraryRepository) GetBooks() []data.Book {
 	var books []data.Book
 	db := Instance()
 	db.Where("quantity > ?", 0).Find(&books)
 	return books
 }
 
-func (br *BookRepository) MyBorrowedList(user string) []data.Borrow {
+func (br *LibraryRepository) MyBorrowedList(user string) []data.Borrow {
 	var borrows []data.Borrow
 	db := Instance()
 	db.Where("user = ?", user).Find(&borrows)
 	return borrows
 }
 
-func (br *BookRepository) BorrowOrReturnBook(action, user, book string) (data.Borrow, error) {
+func (br *LibraryRepository) BorrowOrReturnBook(action, user, book string) (data.Borrow, error) {
 	if action == "borrow" {
 		return br.borrowBook(user, book)
 	} else {
@@ -47,7 +47,7 @@ func (br *BookRepository) BorrowOrReturnBook(action, user, book string) (data.Bo
 	}
 }
 
-func (br *BookRepository) borrowBook(user, book string) (data.Borrow, error) {
+func (br *LibraryRepository) borrowBook(user, book string) (data.Borrow, error) {
 	db := Instance()
 	var b data.Book
 	var borrow data.Borrow
@@ -70,7 +70,7 @@ func (br *BookRepository) borrowBook(user, book string) (data.Borrow, error) {
 	return borrow, nil
 }
 
-func (br *BookRepository) returnBook(user, book string) (data.Borrow, error) {
+func (br *LibraryRepository) returnBook(user, book string) (data.Borrow, error) {
 	db := Instance()
 	var b data.Book
 	var borrow data.Borrow

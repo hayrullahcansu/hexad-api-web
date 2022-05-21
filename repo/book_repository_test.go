@@ -6,7 +6,7 @@ import (
 )
 
 func TestBookRepository(t *testing.T) {
-	repo, err := NewTestBookRepository()
+	repo, err := NewTestLibraryRepository()
 	if err != nil {
 		t.Errorf("error when mooking db %q", err)
 	}
