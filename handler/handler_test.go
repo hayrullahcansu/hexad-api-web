@@ -12,7 +12,7 @@ func TestGETBooks(t *testing.T) {
 	if err != nil {
 		t.Errorf("cannot initialize test book repository %v", err.Error())
 	}
-	handler := BookHandler{repo}
+	handler := BookListHandler{repo}
 	t.Run("returns the list of books in the library", func(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/books", nil)
 		response := httptest.NewRecorder()
@@ -20,7 +20,7 @@ func TestGETBooks(t *testing.T) {
 		got := response.Result().StatusCode
 		want := 200
 		if want != got {
-			t.Errorf("want %q, got %q", want, got)
+			t.Errorf("want %v, got %v", want, got)
 		}
 	})
 }

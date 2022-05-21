@@ -1,12 +1,8 @@
 package main
 
-import (
-	"lib-api/handler"
-	"log"
-	"net/http"
-)
+import "lib-api/handler"
 
 func main() {
-	handler := handler.NewBookHandler()
-	log.Fatal(http.ListenAndServe(":5002", handler))
+	apiListener := handler.NewApiListener()
+	apiListener.ListenAndServe()
 }
