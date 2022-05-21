@@ -4,6 +4,8 @@ import (
 	"lib-api/repo"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
+	"strings"
 	"testing"
 )
 
@@ -13,8 +15,21 @@ func TestGETBooks(t *testing.T) {
 		t.Errorf("cannot initialize test book repository %v", err.Error())
 	}
 	handler := BookListHandler{repo}
-	t.Run("returns the list of books in the library", func(t *testing.T) {
+	t.Run("User can view books in library", func(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/books", nil)
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, request)
+		got := response.Result().StatusCode
+		want := 200
+		if want != got {
+			t.Errorf("want %v, got %v", want, got)
+		}
+	})
+	t.Run("User can borrow a book from the library", func(t *testing.T) {
+		data := url.Values{}
+		data.Set("user", "test1_username")
+		data.Set("book", "TestBook1")
+		request, _ := http.NewRequest(http.MethodPost, "/books/borrow", strings.NewReader(data.Encode()))
 		response := httptest.NewRecorder()
 		handler.ServeHTTP(response, request)
 		got := response.Result().StatusCode

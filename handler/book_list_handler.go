@@ -8,7 +8,7 @@ import (
 	"regexp"
 )
 
-var pattern = `books\/{0,1}(.*)\/{0,1}`
+var pattern = `books\/{0,1}(borrow|return)?`
 
 type BookListHandler struct {
 	repo.IBookRepository
@@ -24,11 +24,11 @@ func (bh *BookListHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	reg := regexp.MustCompile(pattern)
 	url := r.URL.Path[1:]
 	if regexGroup := reg.FindStringSubmatch(url); regexGroup != nil {
-		bookName := regexGroup[1]
+		action := regexGroup[1]
 		switch method := r.Method; method {
 		case "GET":
 			// returns the list of books in the library
-			if bookName == "" {
+			if action == "" {
 				if data, err := json.Marshal(bh.GetBooks()); err != nil {
 					w.WriteHeader(http.StatusInternalServerError)
 					fmt.Fprint(w, err.Error())
@@ -39,9 +39,11 @@ func (bh *BookListHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprint(w, string(bookName))
+			fmt.Fprint(w, string(action))
 			return
 		default:
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Fprint(w, "Unsupported Method")
 		}
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
