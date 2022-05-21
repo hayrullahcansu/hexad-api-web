@@ -18,3 +18,4 @@
 *server.log
 __debug*
 *main
+*.db
