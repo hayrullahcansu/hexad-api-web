@@ -36,6 +36,7 @@ func OpenDb(connection string) (*gorm.DB, error) {
 		fmt.Println("migration first")
 		db.AutoMigrate(
 			&data.Book{},
+			&data.Borrow{},
 		)
 		fmt.Println("migration done")
 	})

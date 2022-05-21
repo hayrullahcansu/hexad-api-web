@@ -30,6 +30,8 @@ func TestGETBooks(t *testing.T) {
 		data.Set("user", "test1_username")
 		data.Set("book", "TestBook1")
 		request, _ := http.NewRequest(http.MethodPost, "/books/borrow", strings.NewReader(data.Encode()))
+		request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
 		response := httptest.NewRecorder()
 		handler.ServeHTTP(response, request)
 		got := response.Result().StatusCode
@@ -38,4 +40,20 @@ func TestGETBooks(t *testing.T) {
 			t.Errorf("want %v, got %v", want, got)
 		}
 	})
+	t.Run("User can borrow a book from the library", func(t *testing.T) {
+		data := url.Values{}
+		data.Set("user", "test1_username")
+		data.Set("book", "TestBook1")
+		request, _ := http.NewRequest(http.MethodPost, "/books/return", strings.NewReader(data.Encode()))
+		request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+
+		response := httptest.NewRecorder()
+		handler.ServeHTTP(response, request)
+		got := response.Result().StatusCode
+		want := 200
+		if want != got {
+			t.Errorf("want %v, got %v", want, got)
+		}
+	})
+
 }
