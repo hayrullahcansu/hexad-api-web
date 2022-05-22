@@ -28,7 +28,6 @@ function post(url, body) {
   for (const [key, value] of Object.entries(body)) {
     urlencoded.append(key, value);
   }
-  // debugger; // eslint-disable-line no-debugger
   const requestOptions = {
     method: 'POST',
     headers: myHeaders,
