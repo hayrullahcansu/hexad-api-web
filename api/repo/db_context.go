@@ -50,7 +50,7 @@ func OpenDb(connection string) (*gorm.DB, error) {
 }
 
 func initData(db *gorm.DB) {
-	for _, v := range getTestBooks() {
+	for _, v := range getBooks() {
 		db.Create(&v)
 	}
 }

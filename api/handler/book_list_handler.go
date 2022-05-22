@@ -44,8 +44,8 @@ func (bh *BookListHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		case "POST", "PUT":
 			err := r.ParseForm()
 			if err == nil && len(r.Form) > 1 && action != "" {
-				user := r.Form.Get("user")
-				book := r.Form.Get("book")
+				user := r.Form.Get("User")
+				book := r.Form.Get("Book")
 				borrow, err := bh.BorrowOrReturnBook(action, user, book)
 				if err != nil {
 					w.WriteHeader(http.StatusNotFound)
