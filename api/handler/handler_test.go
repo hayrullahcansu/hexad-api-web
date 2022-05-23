@@ -27,8 +27,8 @@ func TestGETBooks(t *testing.T) {
 	})
 	t.Run("User can borrow a book from the library", func(t *testing.T) {
 		data := url.Values{}
-		data.Set("user", "test1_username")
-		data.Set("book", "TestBook1")
+		data.Set("User", "test1_username")
+		data.Set("Book", "TestBook1")
 		request, _ := http.NewRequest(http.MethodPost, "/books/borrow", strings.NewReader(data.Encode()))
 		request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
@@ -55,8 +55,8 @@ func TestGETBooks(t *testing.T) {
 
 	t.Run("User can return a book from the library", func(t *testing.T) {
 		data := url.Values{}
-		data.Set("user", "test1_username")
-		data.Set("book", "TestBook1")
+		data.Set("User", "test1_username")
+		data.Set("Book", "TestBook1")
 		request, _ := http.NewRequest(http.MethodPost, "/books/return", strings.NewReader(data.Encode()))
 		request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 

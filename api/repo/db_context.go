@@ -23,12 +23,15 @@ func Instance() *gorm.DB {
 	if err != nil {
 		log.Fatal("cannot initialize db", err)
 	}
+	return db
+}
+
+func SeedDb() {
 	onceSeed.Do(func() {
 		fmt.Println("database seed first")
-		initData(db)
+		initData(Instance())
 		fmt.Println("database seed done")
 	})
-	return db
 }
 
 func OpenDb(connection string) (*gorm.DB, error) {
