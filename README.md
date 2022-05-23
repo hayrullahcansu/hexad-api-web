@@ -8,9 +8,13 @@
   - [Description](#description)
   - [Features](#features)
   - [Structure](#structure)
+  - [Testing](#testing)
+    - [Step 1: Go to api folder of project](#step-1-go-to-api-folder-of-project)
+    - [Step 2: Run on Docker](#step-2-run-on-docker)
+    - [Step 3: Test Output](#step-3-test-output)
   - [Run on Local](#run-on-local)
     - [Step 1: Go to root folder of project](#step-1-go-to-root-folder-of-project)
-    - [Step 2: Run on Docker](#step-2-run-on-docker)
+    - [Step 2: Run on Docker](#step-2-run-on-docker-1)
     - [Step 3: Go to browser](#step-3-go-to-browser)
   - [API Document](#api-document)
 
@@ -39,6 +43,56 @@ To be avoided from circular reference error, we have to obtain these rules.
 
  * `Utility Layer` Includes global methods, some helper methods without business. You can just reference Data layer.
   
+
+## Testing
+
+### Step 1: Go to api folder of project
+```
+cd api
+```
+### Step 2: Run on Docker
+
+```
+go test -v ./... -count=1
+```
+
+### Step 3: Test Output
+```
+(base) ┌─(~/Workspace/golang/libman/api)──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────(hayrullahcansu@Hayrullahs-MacBook-Pro:s001)─┐
+└─(12:12:40 on master ✹)──> go test -v ./... -count=1                                                                                                                                     ──(Mon,May23)─┘
+?       lib-api [no test files]
+?       lib-api/data    [no test files]
+=== RUN   TestGETBooks
+migration first
+migration done
+=== RUN   TestGETBooks/User_can_view_books_in_library
+=== RUN   TestGETBooks/User_can_borrow_a_book_from_the_library
+
+2022/05/23 12:12:46 /Users/hayrullahcansu/Workspace/golang/libman/api/repo/library_repository.go:60 record not found
+[0.098ms] [rows:0] SELECT * FROM `borrows` WHERE user = "test1_username" AND name = "TestBook1" ORDER BY `borrows`.`user` LIMIT 1
+=== RUN   TestGETBooks/User_can_see_borrowed_list
+=== RUN   TestGETBooks/User_can_return_a_book_from_the_library
+--- PASS: TestGETBooks (0.01s)
+    --- PASS: TestGETBooks/User_can_view_books_in_library (0.00s)
+    --- PASS: TestGETBooks/User_can_borrow_a_book_from_the_library (0.00s)
+    --- PASS: TestGETBooks/User_can_see_borrowed_list (0.00s)
+    --- PASS: TestGETBooks/User_can_return_a_book_from_the_library (0.00s)
+PASS
+ok      lib-api/handler 0.440s
+=== RUN   TestDbContext
+migration first
+migration done
+--- PASS: TestDbContext (0.00s)
+=== RUN   TestLibraryRepository
+=== RUN   TestLibraryRepository/returns_the_list_of_books_in_the_library_from_db
+--- PASS: TestLibraryRepository (0.00s)
+    --- PASS: TestLibraryRepository/returns_the_list_of_books_in_the_library_from_db (0.00s)
+PASS
+ok      lib-api/repo    0.370s
+?       lib-api/utility [no test files]
+```
+
+
 ## Run on Local 
 
 ### Step 1: Go to root folder of project

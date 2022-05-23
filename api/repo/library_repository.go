@@ -61,6 +61,11 @@ func (br *LibraryRepository) borrowBook(user, book string) (data.Borrow, error) 
 	if query.RowsAffected > 0 {
 		return borrow, errors.New(fmt.Sprintf("you cannot borrow %s book", book))
 	}
+	var quantity int64
+	db.Where("user = ?", user).Count(&quantity)
+	if quantity > 1 {
+		return borrow, errors.New(fmt.Sprintf("you cannot borrow %s book", book))
+	}
 
 	borrow.User = user
 	borrow.Name = b.Name
