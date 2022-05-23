@@ -7,13 +7,13 @@ RUN npm install -g http-server
 WORKDIR /app
 
 # copy both 'package.json'
-COPY package.json ./
+COPY ./web/package.json /app/package.json
 
 # install project dependencies
 RUN npm install
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY . .
+COPY ./web/. /app/.
 
 # build app for production with minification
 RUN npm run build

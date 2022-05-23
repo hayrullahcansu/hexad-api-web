@@ -1,0 +1,20 @@
+services:
+  libapi:
+    container_name: lib-api
+    hostname: lib-api
+    restart: on-failure:3
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+    - 5002:5002
+  libweb:
+    container_name: lib-web
+    hostname: lib-web
+    restart: on-failure:3
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    ports:
+    - 8080:8080
+version: '3'

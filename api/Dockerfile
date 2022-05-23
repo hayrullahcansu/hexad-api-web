@@ -3,7 +3,7 @@ ENV GO111MODULE=on
 WORKDIR /app
 
 # Add the rest of the files
-COPY . .
+COPY ./api/. /app/.
 
 RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64
